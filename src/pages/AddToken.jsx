@@ -1,27 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header'
-// import logo from '../screens/logo.svg'
 
 export default function AddToken() {
+const history = useNavigate();
+const [saveTokens, setSaveTokens] = useState([]);
+const [save, setSave] = useState({token: '', balance: ''});
+
+useEffect (() => {
+  const savedData = localStorage.getItem('saveTokens');
+  if(savedData) {
+  setSaveTokens(JSON.parse(savedData))
+  }
+}, []);
+
+  function backClick() {
+    history('/')
+  };
+
+
+const handleChange = ({ target }) => {
+  const { name, value } = target;
+  setSave(prevState => ({
+    ...prevState,
+    [name]: value,
+  }))    
+};
+
+const handleButton = (event) => {
+  event.preventDefault();
+    if(save.token.length === 0 || save.balance.length === 0 ) {
+    alert('Inputs cannot be empty');
+  } else {
+    const updateTkns = [...saveTokens, save]
+    setSaveTokens(updateTkns)
+
+    localStorage.setItem('saveTokens', JSON.stringify(updateTkns));
+  };
+};
+
   return (
     <div>
       <Header />
-         {/* <img src={ logo } alt="logo da Klever" width='100px' height='100px'/>
-         <h2>Wish Wallet</h2>
-      <h3>Add Token</h3>
-      <button type='button'>Voltar</button>
-    <container>
-         <label htmlFor='tkn'>
-          <input type="text" id='tkn' required />
-              Token
-         </label>
-         <label htmlFor='tkn'>
-          <input type="text" id='tkn' required />
-            Balance
-         </label>
-         <button type='button'>Save</button>
-    </container> */}
+    <button onClick={backClick}>Back</button>
 
+    <fieldset>
+      <label htmlFor="token">Token</label>
+        <input 
+        type="text" 
+        id="token" 
+        name="token"
+        value={save.token}
+        onChange={handleChange}
+        />
+      <label htmlFor="balance">Balance</label>
+        <input 
+        type="number"
+        id="balance" 
+        name="balance"
+        value={save.balance}
+        onChange={handleChange}
+        />
+        <button
+        type='button'
+        onClick={handleButton}
+        >Save</button>
+    </fieldset>
     </div>
   )
 }

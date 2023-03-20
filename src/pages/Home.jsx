@@ -1,9 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-// import { useState } from 'react'
 import Header from '../components/Header'
-// import logo from '../screens/logo.svg'
-import AddToken from './AddToken';
 
 export default function Home() {
   const history = useNavigate();
