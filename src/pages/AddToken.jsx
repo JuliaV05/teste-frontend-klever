@@ -34,7 +34,7 @@ const handleButton = (event) => {
   } else {
     const updateTkns = [...saveTokens, save]
     setSaveTokens(updateTkns)
-
+    console.log(updateTkns);
     localStorage.setItem('saveTokens', JSON.stringify(updateTkns));
   };
 };
@@ -44,7 +44,7 @@ const handleButton = (event) => {
       <Header />
     <button onClick={backClick}>Back</button>
 
-    <fieldset>
+    <form>
       <label htmlFor="token">Token</label>
         <input 
         type="text" 
@@ -65,7 +65,7 @@ const handleButton = (event) => {
         type='button'
         onClick={handleButton}
         >Save</button>
-    </fieldset>
+    </form>
     </div>
   )
 }
